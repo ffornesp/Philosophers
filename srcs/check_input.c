@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.c                                     :+:      :+:    :+:   */
+/*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/01 17:32:33 by ffornes-         ###   ########.fr       */
+/*   Created: 2023/06/01 17:23:54 by ffornes-          #+#    #+#             */
+/*   Updated: 2023/06/01 17:28:30 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <pthread.h>
-#include <stdio.h>
 
-int	main(int argc, char *argv[])
+int	check_digits(char *str)
 {
 	int	i;
 
-	if (argc < 5 || argc > 6)
-		usage_error(argv);
-	i = 1;
-	while (argv[i])
+	i = 0;
+	while (*(str + i))
 	{
-		if (!check_digits(argv[i]))
-			input_error(argv[i]);
+		if (!ft_isdigit(*(str + i)))
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }

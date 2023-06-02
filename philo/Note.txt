@@ -1,0 +1,21 @@
+Libraries:
+	string.h
+		memset
+
+	stdio.h
+		printf
+
+	stdlib.h
+		malloc
+		free
+
+	unistd.h
+		usleep
+		write
+
+	sys/time.h	
+		gettimeofday
+
+	pthread.h	
+		pthread_create pthread_mutex_destroy pthread_mutex_lock pthread_mutex_unlock
+

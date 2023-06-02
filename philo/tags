@@ -1,0 +1,25 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror$/;"	m
+INCLUDE	Makefile	/^INCLUDE = -I .\/include\/$/;"	m
+NAME	Makefile	/^NAME = philo$/;"	m
+OBJS	Makefile	/^OBJS = $(addprefix $(OBJ_DIR), $(OBJ_FILES))$/;"	m
+OBJ_DIR	Makefile	/^OBJ_DIR = objs\/$/;"	m
+OBJ_FILES	Makefile	/^OBJ_FILES = $(SRC_FILES:.c=.o)$/;"	m
+PHILOSOPHERS_H	include/philosophers.h	/^# define PHILOSOPHERS_H$/;"	d
+RM	Makefile	/^RM = rm -f$/;"	m
+SRC_DIR	Makefile	/^SRC_DIR = srcs\/$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES = philosophers.c error_handling.c check_input.c$/;"	m
+check_input	srcs/check_input.c	/^int	*check_input(int argc, char *argv[])$/;"	f
+check_limits	srcs/check_input.c	/^static int	check_limits(long j)$/;"	f	file:
+check_zeros	srcs/check_input.c	/^static void	check_zeros(char *arg, int *input)$/;"	f	file:
+ft_atol	srcs/check_input.c	/^static int	ft_atol(const char *str)$/;"	f	file:
+ft_isdigit	srcs/check_input.c	/^static int	ft_isdigit(int i)$/;"	f	file:
+input_error	srcs/error_handling.c	/^void	input_error(char *str)$/;"	f
+main	srcs/philosophers.c	/^int	main(int argc, char *argv[])$/;"	f
+usage_error	srcs/error_handling.c	/^void	usage_error(char **argv)$/;"	f

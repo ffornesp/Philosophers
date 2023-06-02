@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/02 11:25:40 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:40:08 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ static int	ft_atol(const char *str)
 	return (check_limits(j));
 }
 
+static void	found_error(int *input, char *str, int i)
+{
+	free(input);
+	input_error(str, i);
+}
+
 static void	check_zeros(char *arg, int *input)
 {
 	char	*aux;
@@ -62,10 +68,7 @@ static void	check_zeros(char *arg, int *input)
 	while (*arg == '0')
 		arg++;
 	if (*arg != '\0')
-	{
-		free(input);
-		input_error(aux);
-	}
+		found_error(input, aux, 0);
 }
 
 int	*check_input(int argc, char *argv[])
@@ -79,13 +82,12 @@ int	*check_input(int argc, char *argv[])
 	while (argv[i])
 	{
 		if (argv[i][0] == '-')
-		{
-			free(input);
-			input_error(argv[i]);
-		}
+			found_error(input, argv[i], 0);
 		n = ft_atol(argv[i]);
 		if (n == 0)
 			check_zeros(argv[i], input);
+		if (n == 1)
+			found_error(input, argv[i], 1);
 		input[i - 1] = n;
 		i++;
 	}

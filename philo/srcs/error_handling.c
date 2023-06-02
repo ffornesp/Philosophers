@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:23:18 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/01 17:32:31 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:43:12 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ void	usage_error(char **argv)
 	exit(0);
 }
 
-void	input_error(char *str)
+void	input_error(char *str, int i)
 {
-	printf("\"%s\" is not a valid input\n", str);
+	if (i < 1)
+		printf("\"%s\" is not a valid input\n", str);
+	else
+		printf("number_of_philosophers (\"%s\") must be at least 2\n", str);
 	exit(0);
 }

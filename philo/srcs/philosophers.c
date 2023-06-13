@@ -6,9 +6,11 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/13 14:17:25 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:05:36 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <unistd.h>
 
 #include "philosophers.h"
 #include <stdlib.h>
@@ -19,10 +21,16 @@
 
 typedef struct s_philo
 {
-	pthread_t		philosopher;
+	pthread_t		philo;
 	pthread_mutex_t	philo_fork;
 	int				index;
 }					t_philo;
+
+typedef struct s_data
+{
+	t_philo	*phs;
+	int		*input;
+}			t_data;
 
 static long long	get_time_ms(long long init_time)
 {
@@ -35,44 +43,57 @@ static long long	get_time_ms(long long init_time)
 	return (current_time);
 }
 
-void	*routine(void)
+void	*routine(t_data *data)
 {
-	printf("Hello\n");
-	return NULL;
+	int		i;
+	int		my_index;
+
+	i = 0;
+	while (data->phs[i].index > 0)
+		i++;
+	my_index = i;
+	data->phs[i].index = i + 1;
+	printf("Hello from index %d\n", data->phs[my_index].index);
+	return (NULL);
 }
 
-static void	exec_philo(int *input, long long init_time, t_philo *ph)
+static void	exec_philo(t_data data, long long init_time)
 {
 	int			i;
 
 	i = 0;
-	while (i < input[0])
-		pthread_create(&ph[i++].philosopher, NULL, (void *)routine, NULL);
+	while (i < data.input[0])
+		pthread_create(&data.phs[i++].philo, NULL, (void *)routine, &data);
 	i = 0;
-	while (i < input[0])
-		pthread_join(ph[i++].philosopher, NULL);
+	while (i < data.input[0])
+		pthread_join(data.phs[i++].philo, NULL);
 	printf("Final time: %lld\n", get_time_ms(init_time));
 }
 
 int	main(int argc, char *argv[])
 {
-	int				*input;
 	struct timeval	tv;
 	long long		init_time;
-	t_philo			*philosophers;
+	t_data			data;
+	int				i;
 
+	i = 0;
 	if (argc < 5 || argc > 6)
 		usage_error(argv);
-	input = check_input(argc, argv);
+	data.input = check_input(argc, argv);
 	gettimeofday(&tv, NULL);
 	init_time = tv.tv_sec * 1000LL + tv.tv_usec / 1000;
-	philosophers = malloc(sizeof(t_philo) * input[0]);
-	if (!philosophers)
+	data.phs = malloc(sizeof(t_philo) * data.input[0]);
+	if (!data.phs)
 	{
-		free(input);
+		free(data.input);
+		free(data.phs);
 		other_error("Not able to allocate philosophers\n");
 	}
-	exec_philo(input, init_time, philosophers);
-	free(input);
+	while (i < data.input[0])
+		data.phs[i++].index = -1;
+	exec_philo(data, init_time);
+	free(data.input);
+	free(data.phs);
 	return (0);
 }

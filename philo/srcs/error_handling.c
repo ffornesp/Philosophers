@@ -6,12 +6,13 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:23:18 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/02 11:43:12 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:05:04 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void	usage_error(char **argv)
 {
@@ -32,4 +33,16 @@ void	input_error(char *str, int i)
 	else
 		printf("number_of_philosophers (\"%s\") must be at least 2\n", str);
 	exit(0);
+}
+
+void	other_error(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*(str + i))
+		i++;
+	write(2, "Error: ", 7);
+	write(2, str, i);
+	exit(1);
 }

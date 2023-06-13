@@ -6,14 +6,14 @@
 #    By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/01 16:46:56 by ffornes-          #+#    #+#              #
-#    Updated: 2023/06/02 11:23:37 by ffornes-         ###   ########.fr        #
+#    Updated: 2023/06/13 16:44:21 by ffornes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 SRC_DIR = srcs/
-SRC_FILES = philosophers.c error_handling.c check_input.c
+SRC_FILES = philosophers.c error_handling.c check_input.c get_time.c
 
 OBJ_DIR = objs/
 OBJ_FILES = $(SRC_FILES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/13 13:13:32 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:17:25 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,19 @@ static long long	get_time_ms(long long init_time)
 void	*routine(void)
 {
 	printf("Hello\n");
+	return NULL;
 }
 
 static void	exec_philo(int *input, long long init_time, t_philo *ph)
 {
-	int	i;
+	int			i;
 
 	i = 0;
-	while (i++ < input[0])
-	{
-		if (pthread_create(&ph[i - 1].philosopher, NULL, &routine, i) != 0)
-			other_error("Failed to create thread\n");
-	}
+	while (i < input[0])
+		pthread_create(&ph[i++].philosopher, NULL, (void *)routine, NULL);
 	i = 0;
-	while (i++ < input[0])
-	{
-		if (pthread_join(&ph[i - 1].philosopher, NULL) != 0)
-			other_error("Failed to join thread\n");
-	}
+	while (i < input[0])
+		pthread_join(ph[i++].philosopher, NULL);
 	printf("Final time: %lld\n", get_time_ms(init_time));
 }
 

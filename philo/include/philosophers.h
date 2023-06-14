@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/14 14:52:56 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:48:50 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_philo
 	pthread_t		philo;
 	pthread_mutex_t	philo_fork;
 	int				index;
+	int				lock;
 }					t_philo;
 
 typedef struct s_data

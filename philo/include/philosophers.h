@@ -6,12 +6,17 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/13 17:03:49 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:52:56 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
+
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define RED "\033[0;31m"
+# define WHITE "\033[0;37m"
 
 # include <pthread.h>
 
@@ -32,9 +37,12 @@ typedef struct s_data
 	int		number_of_meals;
 }			t_data;
 
+int			*check_input(int argc, char *argv[]);
 void		input_error(char *str, int i);
 void		usage_error(char **argv);
 void		other_error(char *str);
+
 long long	get_time_ms(long long init_time);
-int			*check_input(int argc, char *argv[]);
+
+void		*routine(t_data *data);
 #endif

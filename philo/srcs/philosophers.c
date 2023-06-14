@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/14 14:55:05 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:23:51 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,63 +14,6 @@
 #include "philosophers.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-/*	First drop the forks from even philosophers since philos start at 1 and
- *	continue until data->philo_amount... This way we drop the fork first and
- *	the second philosopher can grab it and starting eating...
- 
-void	*routine(t_data *data)
-{
-	int		i;
-
-	i = 0;
-	while (data->phs[i].index > 0)
-		i++;
-	data->phs[i].index = i + 1;
-	if (pthread_mutex_lock(&data->phs[i].philo_fork) != 0)
-		printf("Unable to lock mutex\n");
-	if ((i + 1) % 2 != 0)
-	{
-		if (pthread_mutex_unlock(&data->phs[i].philo_fork) == 0)
-			printf("%d"GREEN" dropped a fork...\n"WHITE, i + 1);
-		printf("%d is sleeping...\n", i + 1);
-		usleep(data->time_to_sleep);
-
-		while (pthread_mutex_lock(&data->phs[i].philo_fork) != 0)
-			usleep(5);
-		printf("%d"YELLOW" grabbed a fork...\n"WHITE, i + 1);
-		while (pthread_mutex_lock(&data->phs[i + 1].philo_fork) != 0)
-			usleep(5);
-		printf("%d"YELLOW" grabbed a fork...\n"WHITE, i + 1);
-		printf("%d is eating...\n", i + 1);
-		usleep(data->time_to_eat);
-		if (pthread_mutex_unlock(&data->phs[i].philo_fork) == 0)
-			printf("%d"GREEN" dropped a fork...\n"WHITE, i + 1);
-		if (pthread_mutex_unlock(&data->phs[i + 1].philo_fork) == 0)
-			printf("%d"GREEN" dropped a fork...\n"WHITE, i + 1);
-
-		printf("%d Has finished\n", i + 1);
-	}
-	else if (i > 0)
-	{
-		usleep(60);
-		if (pthread_mutex_lock(&data->phs[i - 1].philo_fork) == 0)
-			printf("%d"YELLOW" grabbed a fork...\n"WHITE, i + 1);
-		printf("%d is eating...\n", i + 1);
-		usleep(data->time_to_eat);
-		if (pthread_mutex_unlock(&data->phs[i].philo_fork) == 0)
-			printf("%d"GREEN" dropped a fork...\n"WHITE, i + 1);
-		if (pthread_mutex_unlock(&data->phs[i - 1].philo_fork) == 0)
-			printf("%d"GREEN" dropped a fork...\n"WHITE, i + 1);
-
-		printf("%d is sleeping...\n", i + 1);
-		usleep(data->time_to_sleep);
-
-		printf("%d Has finished\n", i + 1);
-	}
-	return (NULL);
-}
-*/
 
 static void	exec_philo(t_data data, long long init_time)
 {

@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/14 15:47:27 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:24:41 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void	init_data(t_data *data, int *input)
 	while (i < data->philo_amount)
 	{
 		data->phs[i].index = -1;
+		data->phs[i].has_eaten = 0;
+		data->phs[i].has_slept = 0;
 		pthread_mutex_init(&data->phs[i].philo_fork, NULL);
 		i++;
 	}

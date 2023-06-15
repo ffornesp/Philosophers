@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 16:52:13 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:56:56 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	sleep_philo(t_data *data, int n)
 {
 	long long	time;
 
-	death_check(data, n);
 	time = get_time_ms(data->init_time);
 	printf(BLUE"[%lld ms]\t"CYAN"%d is sleeping\n"WHITE, time, data->phs[n].index);
 	usleep(data->time_to_sleep);
@@ -44,7 +43,6 @@ void	eat(t_data *data, int n, int k)
 		usleep(1);
 	if (pthread_mutex_lock(&data->phs[n].philo_fork) != 0)
 		printf("WTFWTF\n");
-	death_check(data, n);
 	time = get_time_ms(data->init_time);
 	printf(BLUE"[%lld ms]\t"WHITE"%d"YELLOW" has taken a fork\n"WHITE, time, data->phs[n].index);
 	printf(BLUE"[%lld ms]\t"WHITE"%d"YELLOW" has taken a fork\n"WHITE, time, data->phs[n].index);

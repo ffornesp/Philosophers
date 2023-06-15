@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/02 11:40:08 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:28:09 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	*check_input(int argc, char *argv[])
 		n = ft_atol(argv[i]);
 		if (n == 0)
 			check_zeros(argv[i], input);
-		if (n == 1)
+		if (n == 1 && i == 1)
 			found_error(input, argv[i], 1);
 		input[i - 1] = n;
 		i++;

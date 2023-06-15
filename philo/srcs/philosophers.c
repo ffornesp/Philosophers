@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 17:18:29 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:41:34 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,31 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void	exec_philo(t_data data, long long init_time)
+static void	exec_philo(t_data *data)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < data.philo_amount)
+	while (i < data->philo_amount)
 	{
-		j = pthread_create(&data.phs[i++].philo, NULL, (void *)routine, &data);
+		j = pthread_create(&data->phs[i++].philo, NULL, (void *)routine, data);
 		if (j != 0)
 			printf("Failed to create thread\n");
-		if (i >= data.philo_amount)
-			data.start = 1;
 	}
 	i = 0;
-	while (i < data.philo_amount)
+	data->init_time = get_time_ms(0);
+	data->start = 1;
+	while (i < data->philo_amount)
 	{
-		j = pthread_join(data.phs[i].philo, NULL);
-		pthread_mutex_destroy(&data.phs[i++].philo_fork);
+		j = pthread_join(data->phs[i].philo, NULL);
+		pthread_mutex_destroy(&data->phs[i++].philo_fork);
 		if (j != 0)
 			printf("Failed to join thread\n");
 	}
-	printf("Final time: %lld\n", get_time_ms(init_time));
 }
 
-static void	init_data(t_data *data, int *input, long long init_time)
+static void	init_data(t_data *data, int *input)
 {
 	int	i;
 
@@ -50,13 +49,13 @@ static void	init_data(t_data *data, int *input, long long init_time)
 	data->time_to_eat = input[2] * 1000;
 	data->time_to_sleep = input[3] * 1000;
 	data->number_of_meals = 0;
-	pthread_mutex_init(&data->end_cycle, NULL);
-	data->finished = 0;
-	data->init_time = init_time;
-	data->cycle_time = 0;
-	data->start = 0;
 	if (input[4] > 0)
 		data->number_of_meals = input[4];
+	pthread_mutex_init(&data->end_cycle, NULL);
+	data->init_time = 0;
+	data->cycle_time = 0;
+	data->start = 0;
+	data->finished = 0;
 	while (i < data->philo_amount)
 	{
 		data->phs[i].index = -1;
@@ -68,14 +67,12 @@ static void	init_data(t_data *data, int *input, long long init_time)
 
 int	main(int argc, char *argv[])
 {
-	long long		init_time;
 	t_data			data;
 	int				*input;
 
 	if (argc < 5 || argc > 6)
 		usage_error(argv);
 	input = check_input(argc, argv);
-	init_time = get_time_ms(0);
 	data.phs = malloc(sizeof(t_philo) * input[0]);
 	if (!data.phs)
 	{
@@ -83,8 +80,8 @@ int	main(int argc, char *argv[])
 		free(data.phs);
 		other_error("Not able to allocate philosophers\n");
 	}
-	init_data(&data, input, init_time);
-	exec_philo(data, init_time);
+	init_data(&data, input);
+	exec_philo(&data);
 	free(input);
 	free(data.phs);
 	return (0);

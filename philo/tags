@@ -4,8 +4,10 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+BLUE	include/philosophers.h	/^# define BLUE /;"	d
 CC	Makefile	/^CC = gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror$/;"	m
+CYAN	include/philosophers.h	/^# define CYAN /;"	d
 GREEN	include/philosophers.h	/^# define GREEN /;"	d
 INCLUDE	Makefile	/^INCLUDE = -I .\/include\/$/;"	m
 NAME	Makefile	/^NAME = philo$/;"	m
@@ -13,6 +15,7 @@ OBJS	Makefile	/^OBJS = $(addprefix $(OBJ_DIR), $(OBJ_FILES))$/;"	m
 OBJ_DIR	Makefile	/^OBJ_DIR = objs\/$/;"	m
 OBJ_FILES	Makefile	/^OBJ_FILES = $(SRC_FILES:.c=.o)$/;"	m
 PHILOSOPHERS_H	include/philosophers.h	/^# define PHILOSOPHERS_H$/;"	d
+PURPLE	include/philosophers.h	/^# define PURPLE /;"	d
 RED	include/philosophers.h	/^# define RED /;"	d
 RM	Makefile	/^RM = rm -f$/;"	m
 SRC_DIR	Makefile	/^SRC_DIR = srcs\/$/;"	m
@@ -24,7 +27,8 @@ check_input	srcs/check_input.c	/^int	*check_input(int argc, char *argv[])$/;"	f
 check_limits	srcs/check_input.c	/^static int	check_limits(long j)$/;"	f	file:
 check_zeros	srcs/check_input.c	/^static void	check_zeros(char *arg, int *input)$/;"	f	file:
 cycle_time	include/philosophers.h	/^	long long		cycle_time;$/;"	m	struct:s_data
-eat	srcs/actions.c	/^void	eat(t_data *data, int n, int k, int times)$/;"	f
+death_check	srcs/actions.c	/^static void	death_check(t_data *data, int n)$/;"	f	file:
+eat	srcs/actions.c	/^void	eat(t_data *data, int n, int k)$/;"	f
 end_cycle	include/philosophers.h	/^	pthread_mutex_t	end_cycle;$/;"	m	struct:s_data
 exec_philo	srcs/philosophers.c	/^static void	exec_philo(t_data data, long long init_time)$/;"	f	file:
 finished	include/philosophers.h	/^	int				finished;$/;"	m	struct:s_data
@@ -32,12 +36,12 @@ found_error	srcs/check_input.c	/^static void	found_error(int *input, char *str, 
 ft_atol	srcs/check_input.c	/^static int	ft_atol(const char *str)$/;"	f	file:
 get_time_ms	srcs/get_time.c	/^long long	get_time_ms(long long init_time)$/;"	f
 has_eaten	include/philosophers.h	/^	int				has_eaten;$/;"	m	struct:s_philo
-has_slept	include/philosophers.h	/^	int				has_slept;$/;"	m	struct:s_philo
 index	include/philosophers.h	/^	int				index;$/;"	m	struct:s_philo
-init_data	srcs/philosophers.c	/^static void	init_data(t_data *data, int *input)$/;"	f	file:
+init_data	srcs/philosophers.c	/^static void	init_data(t_data *data, int *input, long long init_time)$/;"	f	file:
+init_time	include/philosophers.h	/^	long long		init_time;$/;"	m	struct:s_data
 input_error	srcs/error_handling.c	/^void	input_error(char *str, int i)$/;"	f
 lock	include/philosophers.h	/^	int				lock;$/;"	m	struct:s_philo
-loop	srcs/routine.c	/^static void	loop(t_data *data, int n, int times)$/;"	f	file:
+loop	srcs/routine.c	/^static void	loop(t_data *data, int n)$/;"	f	file:
 main	srcs/philosophers.c	/^int	main(int argc, char *argv[])$/;"	f
 number_of_meals	include/philosophers.h	/^	int				number_of_meals;$/;"	m	struct:s_data
 other_error	srcs/error_handling.c	/^void	other_error(char *str)$/;"	f
@@ -48,7 +52,8 @@ phs	include/philosophers.h	/^	t_philo			*phs;$/;"	m	struct:s_data
 routine	srcs/routine.c	/^void	*routine(t_data *data)$/;"	f
 s_data	include/philosophers.h	/^typedef struct s_data$/;"	s
 s_philo	include/philosophers.h	/^typedef struct s_philo$/;"	s
-sleep_philo	srcs/actions.c	/^void	sleep_philo(t_data *data, int n, int times)$/;"	f
+sleep_philo	srcs/actions.c	/^void	sleep_philo(t_data *data, int n)$/;"	f
+start	include/philosophers.h	/^	int				start;$/;"	m	struct:s_data
 t_data	include/philosophers.h	/^}			t_data;$/;"	t	typeref:struct:s_data
 t_philo	include/philosophers.h	/^}					t_philo;$/;"	t	typeref:struct:s_philo
 time_to_die	include/philosophers.h	/^	int				time_to_die;$/;"	m	struct:s_data

@@ -6,16 +6,19 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 11:31:08 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:07:16 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
 # define YELLOW "\033[0;33m"
-# define RED "\033[0;31m"
+# define BLUE "\033[0;34m"
+# define PURPLE "\033[0;35m"
+# define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
 # include <pthread.h>
@@ -40,6 +43,8 @@ typedef struct s_data
 	int				number_of_meals;
 	pthread_mutex_t	end_cycle;
 	int				finished;
+	long long		init_time;
+	long long		cycle_time;
 }			t_data;
 
 int			*check_input(int argc, char *argv[]);
@@ -50,4 +55,6 @@ void		other_error(char *str);
 long long	get_time_ms(long long init_time);
 
 void		*routine(t_data *data);
+void		sleep_philo(t_data *data, int n);
+void		eat(t_data *data, int n, int k);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 11:38:37 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:11:40 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	exec_philo(t_data data, long long init_time)
 	printf("Final time: %lld\n", get_time_ms(init_time));
 }
 
-static void	init_data(t_data *data, int *input)
+static void	init_data(t_data *data, int *input, long long init_time)
 {
 	int	i;
 
@@ -50,6 +50,8 @@ static void	init_data(t_data *data, int *input)
 	data->number_of_meals = 0;
 	pthread_mutex_init(&data->end_cycle, NULL);
 	data->finished = 0;
+	data->init_time = init_time;
+	data->cycle_time = 0;
 	if (input[4] > 0)
 		data->number_of_meals = input[4];
 	while (i < data->philo_amount)
@@ -79,7 +81,7 @@ int	main(int argc, char *argv[])
 		free(data.phs);
 		other_error("Not able to allocate philosophers\n");
 	}
-	init_data(&data, input);
+	init_data(&data, input, init_time);
 	exec_philo(data, init_time);
 	free(input);
 	free(data.phs);

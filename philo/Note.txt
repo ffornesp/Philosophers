@@ -35,3 +35,6 @@ Input order:
 Each philosopher is a thread
 Each fork is a mutex
 Actions: Eating Sleeping Thinking
+
+Must prevent arg check to fail whenever there's a 1 since it doesn't matter where it is,
+the same error message is shown (n_philosophers) which can be incorrect.

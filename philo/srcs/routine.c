@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:42:12 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 15:19:58 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:18:25 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,15 @@ static void	check_end_of_cycle(t_data *data, int n)
 	if (data->finished == data->philo_amount && pthread_mutex_lock(&data->end_cycle) == 0)
 	{
 		data->finished = 0;
-		data->cycle_time = get_time_ms(data->init_time);
 		pthread_mutex_unlock(&data->end_cycle);
 	}
 	else
 	{
 		printf(BLUE"[%lld ms]\t"WHITE"%d is thinking\n", get_time_ms(data->init_time), data->phs[n].index);
-		while (data->finished != 0 && data->finished < data->philo_amount)
+		while (data->finished != 0)
 			usleep(1);
 	}
 	data->phs[n].has_eaten = 0;
-	data->phs[n].has_slept = 0;
 }
 
 static void	loop(t_data *data, int n)
@@ -41,16 +39,12 @@ static void	loop(t_data *data, int n)
 	int			i;
 
 	i = 0;
-	data->cycle_time = get_time_ms(data->init_time);
-	if (data->phs[n].index % 2 != 0)
+	if (data->phs[n].index & 1)
 	{
 		sleep_philo(data, n);
 		if (data->phs[n + 1].has_eaten < 1)
-		{
-			printf(BLUE"[%lld ms]\t"WHITE"%d is thinking\n", get_time_ms(data->init_time), data->phs[n].index);
 			while (data->phs[n + 1].has_eaten < 1)
 				usleep(1);
-		}
 		eat(data, n, n + 1);
 	}
 	else
@@ -71,7 +65,9 @@ void	*routine(t_data *data)
 	while (data->phs[i].index > 0)
 		i++;
 	data->phs[i].index = i + 1;
-	data->phs[i].lock = 0;
+	while (data->start & 0)
+		usleep(1);
+	data->cycle_time = get_time_ms(0);
 	if (data->number_of_meals > 0)
 		while (times++ < data->number_of_meals)
 			loop(data, i);

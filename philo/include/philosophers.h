@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 15:07:16 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:03:19 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ typedef struct s_philo
 	pthread_t		philo;
 	pthread_mutex_t	philo_fork;
 	int				index;
-	int				lock;
 	int				has_eaten;
-	int				has_slept;
+	int				lock;
 }					t_philo;
 
 typedef struct s_data
@@ -41,10 +40,13 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_meals;
+
 	pthread_mutex_t	end_cycle;
 	int				finished;
+
 	long long		init_time;
 	long long		cycle_time;
+	int				start;
 }			t_data;
 
 int			*check_input(int argc, char *argv[]);

@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 17:56:56 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:38:49 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ static void	death_check(t_data *data, int n)
 	}
 }
 
+/*	Right now death is only checked before or after sleeping...eating which causes issues
+ *	if the time_to_eat or time_to_sleep values are way greater than time_of_death
+ *	since death messages can not be delayed more than 10ms... So wtf mate(?)
+ *
+ *
+ *	Time of death is determined by the time of the beggining of the last meal so...
+ *	Philosophers eat and sleep in this order exactly.
+ */
 void	sleep_philo(t_data *data, int n)
 {
 	long long	time;

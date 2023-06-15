@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/14 16:24:41 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:38:37 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	init_data(t_data *data, int *input)
 	data->time_to_eat = input[2];
 	data->time_to_sleep = input[3];
 	data->number_of_meals = 0;
+	pthread_mutex_init(&data->end_cycle, NULL);
+	data->finished = 0;
 	if (input[4] > 0)
 		data->number_of_meals = input[4];
 	while (i < data->philo_amount)

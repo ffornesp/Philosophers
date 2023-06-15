@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/14 16:18:49 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:31:08 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	t_philo	*phs;
-	int		philo_amount;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		number_of_meals;
+	t_philo			*phs;
+	int				philo_amount;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_meals;
+	pthread_mutex_t	end_cycle;
+	int				finished;
 }			t_data;
 
 int			*check_input(int argc, char *argv[]);

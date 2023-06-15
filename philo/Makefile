@@ -6,7 +6,7 @@
 #    By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/01 16:46:56 by ffornes-          #+#    #+#              #
-#    Updated: 2023/06/14 15:52:25 by ffornes-         ###   ########.fr        #
+#    Updated: 2023/06/15 11:38:06 by ffornes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCLUDE = -I ./include/
 all:	$(NAME)
 
 $(NAME):	$(OBJ_DIR) $(OBJS)
-			$(CC) $(INCLUDE) $(OBJS) -o $@
+			$(CC) -fsanitize=thread $(INCLUDE) $(OBJS) -o $@
 
 $(OBJ_DIR):
 			@mkdir $@

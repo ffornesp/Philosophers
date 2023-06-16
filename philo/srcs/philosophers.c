@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/16 18:03:06 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:40:31 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,19 @@
 static void	exec_philo(t_data *data)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (i < data->philo_amount)
-	{
-		j = pthread_create(&data->phs[i++].philo, NULL, (void *)routine, data);
-		if (j != 0)
+		if (pthread_create(&data->phs[i++].philo, NULL, (void *)routine, data))
 			printf("Failed to create thread\n");
-	}
 	i = 0;
 	data->init_time = get_time_ms(0);
 	data->start = 1;
 	while (i < data->philo_amount)
 	{
-		j = pthread_join(data->phs[i].philo, NULL);
-		pthread_mutex_destroy(&data->phs[i++].philo_fork);
-		if (j != 0)
+		if (pthread_join(data->phs[i].philo, NULL))
 			printf("Failed to join thread\n");
+		pthread_mutex_destroy(&data->phs[i++].philo_fork);
 	}
 	pthread_mutex_destroy(&data->death_mutex);
 }

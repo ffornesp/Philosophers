@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 17:41:34 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:03:06 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	exec_philo(t_data *data)
 		if (j != 0)
 			printf("Failed to join thread\n");
 	}
+	pthread_mutex_destroy(&data->death_mutex);
 }
 
 static void	init_data(t_data *data, int *input)
@@ -51,15 +52,15 @@ static void	init_data(t_data *data, int *input)
 	data->number_of_meals = 0;
 	if (input[4] > 0)
 		data->number_of_meals = input[4];
-	pthread_mutex_init(&data->end_cycle, NULL);
 	data->init_time = 0;
-	data->cycle_time = 0;
 	data->start = 0;
-	data->finished = 0;
+	pthread_mutex_init(&data->death_mutex, NULL);
+	data->dead = 0;
 	while (i < data->philo_amount)
 	{
 		data->phs[i].index = -1;
 		data->phs[i].has_eaten = 0;
+		data->phs[i].death_timer = 0;
 		pthread_mutex_init(&data->phs[i].philo_fork, NULL);
 		i++;
 	}

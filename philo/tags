@@ -22,16 +22,15 @@ SRC_DIR	Makefile	/^SRC_DIR = srcs\/$/;"	m
 SRC_FILES	Makefile	/^SRC_FILES = philosophers.c error_handling.c check_input.c get_time.c routine.c actions.c$/;"	m
 WHITE	include/philosophers.h	/^# define WHITE /;"	d
 YELLOW	include/philosophers.h	/^# define YELLOW /;"	d
-check_end_of_cycle	srcs/routine.c	/^static void	check_end_of_cycle(t_data *data, int n)$/;"	f	file:
 check_input	srcs/check_input.c	/^int	*check_input(int argc, char *argv[])$/;"	f
 check_limits	srcs/check_input.c	/^static int	check_limits(long j)$/;"	f	file:
 check_zeros	srcs/check_input.c	/^static void	check_zeros(char *arg, int *input)$/;"	f	file:
-cycle_time	include/philosophers.h	/^	long long		cycle_time;$/;"	m	struct:s_data
-death_check	srcs/actions.c	/^static void	death_check(t_data *data, int n)$/;"	f	file:
+dead	include/philosophers.h	/^	int				dead;$/;"	m	struct:s_data
+death_check	srcs/actions.c	/^void	death_check(t_data *data, int n)$/;"	f
+death_mutex	include/philosophers.h	/^	pthread_mutex_t	death_mutex;$/;"	m	struct:s_data
+death_timer	include/philosophers.h	/^	long long		death_timer;$/;"	m	struct:s_philo
 eat	srcs/actions.c	/^void	eat(t_data *data, int n, int k)$/;"	f
-end_cycle	include/philosophers.h	/^	pthread_mutex_t	end_cycle;$/;"	m	struct:s_data
 exec_philo	srcs/philosophers.c	/^static void	exec_philo(t_data *data)$/;"	f	file:
-finished	include/philosophers.h	/^	int				finished;$/;"	m	struct:s_data
 found_error	srcs/check_input.c	/^static void	found_error(int *input, char *str, int i)$/;"	f	file:
 ft_atol	srcs/check_input.c	/^static int	ft_atol(const char *str)$/;"	f	file:
 get_time_ms	srcs/get_time.c	/^long long	get_time_ms(long long init_time)$/;"	f
@@ -40,7 +39,6 @@ index	include/philosophers.h	/^	int				index;$/;"	m	struct:s_philo
 init_data	srcs/philosophers.c	/^static void	init_data(t_data *data, int *input)$/;"	f	file:
 init_time	include/philosophers.h	/^	long long		init_time;$/;"	m	struct:s_data
 input_error	srcs/error_handling.c	/^void	input_error(char *str, int i)$/;"	f
-lock	include/philosophers.h	/^	int				lock;$/;"	m	struct:s_philo
 loop	srcs/routine.c	/^static void	loop(t_data *data, int n)$/;"	f	file:
 main	srcs/philosophers.c	/^int	main(int argc, char *argv[])$/;"	f
 number_of_meals	include/philosophers.h	/^	int				number_of_meals;$/;"	m	struct:s_data

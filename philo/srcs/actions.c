@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/16 18:03:05 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:13:26 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void	death_check(t_data *data, int n)
 	time = get_time_ms(data->init_time);
 	if (time - data->phs[n].death_timer >= data->time_to_die)
 	{
+		if (data->dead & 1)
+			return ;
 		if (pthread_mutex_lock(&data->death_mutex) == 0)
 		{
-			if (data->dead > 0)
+			if (data->dead & 1)
 				return ;
 			data->dead = 1;
 			usleep(1000);

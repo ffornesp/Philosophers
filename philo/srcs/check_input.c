@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/15 17:28:09 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:46:46 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ int	*check_input(int argc, char *argv[])
 		input[i - 1] = n;
 		i++;
 	}
+	if (argc < 6)
+		input[4] = 0;
 	return (input);
 }

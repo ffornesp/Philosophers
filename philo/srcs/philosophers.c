@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 12:17:47 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:26:47 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static void	exec_philo(t_data *data)
 	while (i < data->philo_amount)
 		if (pthread_create(&data->phs[i++].philo, NULL, (void *)routine, data))
 			printf("Failed to create thread\n");
-	i = 0;
 	data->init_time = get_time_ms(0);
 	data->start = 1;
+	i = 0;
 	while (i < data->philo_amount)
 	{
 		if (pthread_join(data->phs[i].philo, NULL))
@@ -45,9 +45,7 @@ static void	init_data(t_data *data, int *input)
 	data->time_to_die = input[1];
 	data->time_to_eat = input[2] * 1000;
 	data->time_to_sleep = input[3] * 1000;
-	data->number_of_meals = 0;
-	if (input[4] > 0)
-		data->number_of_meals = input[4];
+	data->number_of_meals = input[4];
 	data->init_time = 0;
 	data->start = 0;
 	pthread_mutex_init(&data->death_mutex, NULL);
@@ -56,7 +54,7 @@ static void	init_data(t_data *data, int *input)
 	while (i < data->philo_amount)
 	{
 		data->phs[i].index = -1;
-		data->phs[i].has_eaten = 0;
+		data->phs[i].eating = 0;
 		data->phs[i].death_timer = 0;
 		pthread_mutex_init(&data->phs[i].philo_fork, NULL);
 		i++;

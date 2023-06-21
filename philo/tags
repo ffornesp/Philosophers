@@ -47,6 +47,8 @@ philo	include/philosophers.h	/^	pthread_t		philo;$/;"	m	struct:s_philo
 philo_amount	include/philosophers.h	/^	int				philo_amount;$/;"	m	struct:s_data
 philo_fork	include/philosophers.h	/^	pthread_mutex_t	philo_fork;$/;"	m	struct:s_philo
 phs	include/philosophers.h	/^	t_philo			*phs;$/;"	m	struct:s_data
+print_message	srcs/actions.c	/^void	print_message(int n, char *str, t_data *data, int m_id)$/;"	f
+print_mutex	include/philosophers.h	/^	pthread_mutex_t	print_mutex;$/;"	m	struct:s_data
 routine	srcs/routine.c	/^void	*routine(t_data *data)$/;"	f
 s_data	include/philosophers.h	/^typedef struct s_data$/;"	s
 s_philo	include/philosophers.h	/^typedef struct s_philo$/;"	s

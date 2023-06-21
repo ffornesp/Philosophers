@@ -6,13 +6,30 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 12:37:55 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:13:37 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <stdio.h>
 #include <unistd.h>
+
+/*
+static void	sleep_wrapper(int time, t_data *data, int n)
+{
+	int	time_left;
+
+	time_left = time;
+	while (!data->dead)
+	{
+		if (time_left <= 0)
+			break ;
+		usleep(500);
+		time_left -= 500;
+		death_check(data, n);
+	}
+}
+*/
 
 void	print_message(int n, char *str, t_data *data, int m_id)
 {
@@ -64,8 +81,8 @@ void	sleep_philo(t_data *data, int n)
 		return ;
 	print_message(n + 1, CYAN"is sleeping", data, 0);
 	usleep(data->time_to_sleep);
+	//sleep_wrapper(data->time_to_sleep, data, n);
 	data->phs[n].has_eaten = 0;
-	death_check(data, n);
 	if (data->dead)
 		return ;
 	if (data->phs[n].index & 1 && !data->phs[n + 1].has_eaten)
@@ -84,6 +101,7 @@ void	eat(t_data *data, int n, int k)
 		print_message(n + 1, YELLOW"has taken a fork", data, 1);
 		data->phs[n].death_timer = get_time_ms(data->init_time);
 		usleep(data->time_to_eat);
+		//sleep_wrapper(data->time_to_eat, data, n);
 		data->phs[n].has_eaten = 1;
 	}
 	pthread_mutex_unlock(&data->phs[k].philo_fork);

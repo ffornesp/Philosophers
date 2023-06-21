@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:42:12 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/16 19:41:01 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:51:22 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	loop(t_data *data, int n)
 {	
-	int			k;
+	int	k;
 
 	if (data->phs[n].index & 1)
 	{
@@ -31,9 +31,7 @@ static void	loop(t_data *data, int n)
 			death_check(data, n);
 			if (data->dead)
 				return ;
-			printf(BLUE"[%lld ms]\t"WHITE"%d is thinking\n", get_time_ms(data->init_time), data->phs[n].index);
-			while (!data->phs[k].has_eaten)
-				usleep(1);
+			print_message(n + 1, "is thinking", data, 0);
 		}
 		eat(data, n, k);
 		sleep_philo(data, n);
@@ -52,7 +50,7 @@ void	*routine(t_data *data)
 		i++;
 	data->phs[i].index = i + 1;
 	while (!data->start)
-		usleep(1);
+		usleep(300);
 	if (data->number_of_meals)
 		while (times++ < data->number_of_meals || !data->dead)
 			loop(data, i);

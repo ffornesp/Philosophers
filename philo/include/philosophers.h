@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 12:16:23 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:51:07 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,6 @@ void		*routine(t_data *data);
 void		eat(t_data *data, int n, int k);
 void		sleep_philo(t_data *data, int n);
 void		death_check(t_data *data, int n);
+
+void		print_message(int n, char *str, t_data *data, int m_id);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/16 17:26:59 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:16:23 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_data
 
 	long long		init_time;
 	int				start;
+
+	pthread_mutex_t	print_mutex;
 
 	pthread_mutex_t	death_mutex;
 	int				dead;

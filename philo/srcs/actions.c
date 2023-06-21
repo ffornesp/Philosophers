@@ -6,13 +6,33 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/16 19:44:15 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:37:55 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <stdio.h>
 #include <unistd.h>
+
+void	print_message(int n, char *str, t_data *data, int m_id)
+{
+	long long	time;
+
+	time = get_time_ms(data->init_time);
+	if (!pthread_mutex_lock(&data->print_mutex))
+	{
+		if (!m_id)
+			printf(BLUE"[%lld ms]\t"WHITE"%d %s\n", time, n, str);
+		else
+		{
+			printf(BLUE"[%lld ms]\t"WHITE"%d %s\n", time, n, str);
+			printf(BLUE"[%lld ms]\t"WHITE"%d %s\n", time, n, str);
+			str = GREEN"is eating";
+			printf(BLUE"[%lld ms]\t"WHITE"%d %s\n", time, n, str);
+		}
+	}
+	pthread_mutex_unlock(&data->print_mutex);
+}
 
 void	death_check(t_data *data, int n)
 {
@@ -29,9 +49,8 @@ void	death_check(t_data *data, int n)
 			if (data->dead)
 				return ;
 			data->dead = 1;
-			usleep(1000);
-			time = get_time_ms(data->init_time);
-			printf(BLUE"[%lld ms]\t"RED"%d has died\n"WHITE, time, data->phs[n].index);
+			usleep(300);
+			print_message(n + 1, RED"has died", data, 0);
 			pthread_mutex_unlock(&data->death_mutex);
 		}
 	}
@@ -40,44 +59,33 @@ void	death_check(t_data *data, int n)
 
 void	sleep_philo(t_data *data, int n)
 {
-	long long	time;
 
-	time = get_time_ms(data->init_time);
 	if (data->dead)
 		return ;
-	printf(BLUE"[%lld ms]\t"CYAN"%d is sleeping\n"WHITE, time, data->phs[n].index);
+	print_message(n + 1, CYAN"is sleeping", data, 0);
 	usleep(data->time_to_sleep);
 	data->phs[n].has_eaten = 0;
 	death_check(data, n);
-	time = get_time_ms(data->init_time);
 	if (data->dead)
 		return ;
 	if (data->phs[n].index & 1 && !data->phs[n + 1].has_eaten)
-		printf(BLUE"[%lld ms]\t"WHITE"%d is thinking\n"WHITE, time, data->phs[n].index);
+		print_message(n + 1, WHITE"is thinking", data, 0);
 }
 
 void	eat(t_data *data, int n, int k)
 {
-	long long	time;
-
-	while (pthread_mutex_lock(&data->phs[k].philo_fork))
+	if (!pthread_mutex_lock(&data->phs[k].philo_fork))
 		if (data->dead)
 			return ;
 	pthread_mutex_lock(&data->phs[n].philo_fork);
 	death_check(data, n);
-	if (data->dead)
+	if (!data->dead)
 	{
-		pthread_mutex_unlock(&data->phs[n].philo_fork);
-		pthread_mutex_unlock(&data->phs[k].philo_fork);
-		return ;
+		print_message(n + 1, YELLOW"has taken a fork", data, 1);
+		data->phs[n].death_timer = get_time_ms(data->init_time);
+		usleep(data->time_to_eat);
+		data->phs[n].has_eaten = 1;
 	}
-	time = get_time_ms(data->init_time);
-	printf(BLUE"[%lld ms]\t"WHITE"%d"YELLOW" has taken a fork\n"WHITE, time, data->phs[n].index);
-	printf(BLUE"[%lld ms]\t"WHITE"%d"YELLOW" has taken a fork\n"WHITE, time, data->phs[n].index);
-	printf(BLUE"[%lld ms]\t"GREEN"%d is eating\n"WHITE, time, data->phs[n].index);
-	data->phs[n].death_timer = time;
-	usleep(data->time_to_eat);
-	data->phs[n].has_eaten = 1;
 	pthread_mutex_unlock(&data->phs[k].philo_fork);
 	pthread_mutex_unlock(&data->phs[n].philo_fork);
 }

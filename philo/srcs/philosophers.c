@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/16 19:40:31 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:17:47 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	exec_philo(t_data *data)
 		pthread_mutex_destroy(&data->phs[i++].philo_fork);
 	}
 	pthread_mutex_destroy(&data->death_mutex);
+	pthread_mutex_destroy(&data->print_mutex);
 }
 
 static void	init_data(t_data *data, int *input)
@@ -51,6 +52,7 @@ static void	init_data(t_data *data, int *input)
 	data->start = 0;
 	pthread_mutex_init(&data->death_mutex, NULL);
 	data->dead = 0;
+	pthread_mutex_init(&data->print_mutex, NULL);
 	while (i < data->philo_amount)
 	{
 		data->phs[i].index = -1;

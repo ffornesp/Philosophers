@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:23:18 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/13 13:05:04 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:38:40 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ void	other_error(char *str)
 	write(2, "Error: ", 7);
 	write(2, str, i);
 	exit(1);
+}
+
+void	found_error(int *input, char *str, int i)
+{
+	free(input);
+	input_error(str, i);
 }

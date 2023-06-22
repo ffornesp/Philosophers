@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 13:46:46 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:49:33 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,20 @@ static int	ft_atol(const char *str)
 	return (check_limits(j));
 }
 
-static void	found_error(int *input, char *str, int i)
+static void	check_digits(char *arg, int *input)
 {
-	free(input);
-	input_error(str, i);
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '+' && !i)
+			i++;
+		if (arg[i] >= '0' && arg[i] <= '9')
+			i++;
+		else
+			found_error(input, arg, 0);
+	}
 }
 
 static void	check_zeros(char *arg, int *input)
@@ -83,11 +93,12 @@ int	*check_input(int argc, char *argv[])
 	{
 		if (argv[i][0] == '-')
 			found_error(input, argv[i], 0);
+		check_digits(argv[i], input);
 		n = ft_atol(argv[i]);
+		if (n <= 0)
+			found_error(input, argv[i], 0);
 		if (n == 0)
 			check_zeros(argv[i], input);
-		if (n == 1 && i == 1)
-			found_error(input, argv[i], 1);
 		input[i - 1] = n;
 		i++;
 	}

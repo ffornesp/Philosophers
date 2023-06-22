@@ -19,19 +19,20 @@ PURPLE	include/philosophers.h	/^# define PURPLE /;"	d
 RED	include/philosophers.h	/^# define RED /;"	d
 RM	Makefile	/^RM = rm -f$/;"	m
 SRC_DIR	Makefile	/^SRC_DIR = srcs\/$/;"	m
-SRC_FILES	Makefile	/^SRC_FILES = philosophers.c error_handling.c check_input.c routine.c utils.c$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES = philosophers.c error_handling.c parse.c routine.c utils.c$/;"	m
 WHITE	include/philosophers.h	/^# define WHITE /;"	d
 YELLOW	include/philosophers.h	/^# define YELLOW /;"	d
-check_input	srcs/check_input.c	/^int	*check_input(int argc, char *argv[])$/;"	f
-check_limits	srcs/check_input.c	/^static int	check_limits(long j)$/;"	f	file:
-check_zeros	srcs/check_input.c	/^static void	check_zeros(char *arg, int *input)$/;"	f	file:
+check_input	srcs/parse.c	/^int	*check_input(int argc, char *argv[])$/;"	f
+check_limits	srcs/parse.c	/^static int	check_limits(long j)$/;"	f	file:
+check_zeros	srcs/parse.c	/^static void	check_zeros(char *arg, int *input)$/;"	f	file:
 dead	include/philosophers.h	/^	int				dead;$/;"	m	struct:s_data
+death_check	srcs/routine.c	/^static int	death_check(t_data *data, int p_id)$/;"	f	file:
 death_mutex	include/philosophers.h	/^	pthread_mutex_t	death_mutex;$/;"	m	struct:s_data
 death_timer	include/philosophers.h	/^	long long		death_timer;$/;"	m	struct:s_philo
 eating	include/philosophers.h	/^	int				eating;$/;"	m	struct:s_philo
 exec_philo	srcs/philosophers.c	/^static void	exec_philo(t_data *data)$/;"	f	file:
-found_error	srcs/check_input.c	/^static void	found_error(int *input, char *str, int i)$/;"	f	file:
-ft_atol	srcs/check_input.c	/^static int	ft_atol(const char *str)$/;"	f	file:
+found_error	srcs/parse.c	/^static void	found_error(int *input, char *str, int i)$/;"	f	file:
+ft_atol	srcs/parse.c	/^static int	ft_atol(const char *str)$/;"	f	file:
 get_time_ms	srcs/utils.c	/^long long	get_time_ms(long long init_time)$/;"	f
 index	include/philosophers.h	/^	int				index;$/;"	m	struct:s_philo
 init_data	srcs/philosophers.c	/^static void	init_data(t_data *data, int *input)$/;"	f	file:
@@ -42,16 +43,16 @@ number_of_meals	include/philosophers.h	/^	int				number_of_meals;$/;"	m	struct:s
 other_error	srcs/error_handling.c	/^void	other_error(char *str)$/;"	f
 philo	include/philosophers.h	/^	pthread_t		philo;$/;"	m	struct:s_philo
 philo_amount	include/philosophers.h	/^	int				philo_amount;$/;"	m	struct:s_data
-philo_eat	srcs/routine.c	/^static void	philo_eat(t_data *data, int philo_id)$/;"	f	file:
+philo_eat	srcs/routine.c	/^static void	philo_eat(t_data *data, int p_id)$/;"	f	file:
 philo_fork	include/philosophers.h	/^	pthread_mutex_t	philo_fork;$/;"	m	struct:s_philo
-philo_sleep	srcs/routine.c	/^static void	philo_sleep(t_data *data, int philo_id)$/;"	f	file:
+philo_sleep	srcs/routine.c	/^static void	philo_sleep(t_data *data, int p_id)$/;"	f	file:
 phs	include/philosophers.h	/^	t_philo			*phs;$/;"	m	struct:s_data
-print_message	srcs/utils.c	/^void	print_message(int n, char *str, t_data *data, int m_id)$/;"	f
+print_message	srcs/utils.c	/^void	print_message(int n, char *str, t_data *data)$/;"	f
 print_mutex	include/philosophers.h	/^	pthread_mutex_t	print_mutex;$/;"	m	struct:s_data
 routine	srcs/routine.c	/^void	*routine(t_data *data)$/;"	f
 s_data	include/philosophers.h	/^typedef struct s_data$/;"	s
 s_philo	include/philosophers.h	/^typedef struct s_philo$/;"	s
-sleep_wrapper	srcs/routine.c	/^static void	sleep_wrapper(long long time, t_data *data)$/;"	f	file:
+sleep_wrapper	srcs/routine.c	/^static void	sleep_wrapper(long long time, t_data *data, int p_id)$/;"	f	file:
 start	include/philosophers.h	/^	int				start;$/;"	m	struct:s_data
 t_data	include/philosophers.h	/^}			t_data;$/;"	t	typeref:struct:s_data
 t_philo	include/philosophers.h	/^}					t_philo;$/;"	t	typeref:struct:s_philo

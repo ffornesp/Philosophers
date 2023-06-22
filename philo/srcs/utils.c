@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/22 12:21:04 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:51:26 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,42 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/time.h>
+
+int	death_check(t_data *data, int p_id)
+{
+	long long	time;
+
+	time = get_time_ms(data->init_time) - data->phs[p_id].death_timer;
+	time -= data->time_to_die;
+	if (time >= 0)
+	{
+		if (data->dead)
+			return (1);
+		if (!pthread_mutex_lock(&data->death_mutex))
+		{
+			if (data->dead)
+				return (1);
+			data->dead = 1;
+			print_message(p_id + 1, RED"has died", data);
+			pthread_mutex_unlock(&data->death_mutex);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+void	sleep_wrapper(long long time, t_data *data, int p_id)
+{
+	long long	init_time;
+
+	init_time = get_time_ms(0);
+	while (get_time_ms(0) - init_time < time)
+	{
+		if (data && death_check(data, p_id))
+			break ;
+		usleep(50);
+	}
+}
 
 void	print_message(int n, char *str, t_data *data)
 {

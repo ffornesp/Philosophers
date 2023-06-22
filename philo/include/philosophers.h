@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 16:09:13 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:21:15 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		usage_error(char **argv);
 void		other_error(char *str);
 
 long long	get_time_ms(long long init_time);
-void		print_message(int n, char *str, t_data *data, int m_id);
+void		print_message(int n, char *str, t_data *data);
 
 void		*routine(t_data *data);
 #endif

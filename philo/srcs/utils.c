@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 16:08:01 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:21:04 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,13 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-void	print_message(int n, char *str, t_data *data, int m_id)
+void	print_message(int n, char *str, t_data *data)
 {
 	long long	time;
 
 	time = get_time_ms(data->init_time);
 	if (!pthread_mutex_lock(&data->print_mutex))
-	{
-		if (!m_id)
-			printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n", time, n, str);
-		else
-		{
-			printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n", time, n, str);
-			printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n", time, n, str);
-			str = GREEN"is eating";
-			printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n", time, n, str);
-		}
-	}
+		printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n", time, n, str);
 	pthread_mutex_unlock(&data->print_mutex);
 }
 

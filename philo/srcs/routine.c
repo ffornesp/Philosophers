@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:42:12 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 16:08:42 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:33:39 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,13 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static void	sleep_wrapper(long long time, t_data *data)
+static void	sleep_wrapper(long long time)
 {
-	int			i;
-	long long	value = time / 4;
+	long long	init_time;
 
-	i = 0;
-	while (i < 4)
-	{
-		if (data->dead)
-			break ;
-		usleep(value);
-		i++;
-	}
+	init_time = get_time_ms(0);
+	while (get_time_ms(0) - init_time < time)
+		usleep(time/10);
 }
 
 static void	philo_sleep(t_data *data, int philo_id)
@@ -34,7 +28,7 @@ static void	philo_sleep(t_data *data, int philo_id)
 	if (data->dead)
 		return ;
 	print_message(philo_id + 1, CYAN"is sleeping", data, 0);
-	sleep_wrapper(data->time_to_sleep, data);
+	sleep_wrapper(data->time_to_sleep);
 	//usleep(data->time_to_sleep);
 }
 
@@ -54,7 +48,7 @@ static void	philo_eat(t_data *data, int philo_id)
 		data->phs[philo_id].eating = 1;
 		print_message(philo_id + 1, YELLOW"has taken a fork", data, 1);
 		data->phs[philo_id].death_timer = get_time_ms(data->init_time);
-		sleep_wrapper(data->time_to_eat, data);
+		sleep_wrapper(data->time_to_eat);
 		//usleep(data->time_to_eat);
 	}
 	pthread_mutex_unlock(&data->phs[philo_id].philo_fork);

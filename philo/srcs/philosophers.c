@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/21 15:26:47 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:40:00 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void	init_data(t_data *data, int *input)
 	i = 0;
 	data->philo_amount = input[0];
 	data->time_to_die = input[1];
-	data->time_to_eat = input[2] * 1000;
-	data->time_to_sleep = input[3] * 1000;
+	data->time_to_eat = input[2];
+	data->time_to_sleep = input[3];
 	data->number_of_meals = input[4];
 	data->init_time = 0;
 	data->start = 0;

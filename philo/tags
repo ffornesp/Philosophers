@@ -19,44 +19,43 @@ PURPLE	include/philosophers.h	/^# define PURPLE /;"	d
 RED	include/philosophers.h	/^# define RED /;"	d
 RM	Makefile	/^RM = rm -f$/;"	m
 SRC_DIR	Makefile	/^SRC_DIR = srcs\/$/;"	m
-SRC_FILES	Makefile	/^SRC_FILES = philosophers.c error_handling.c check_input.c get_time.c routine.c actions.c$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES = philosophers.c error_handling.c check_input.c routine.c utils.c$/;"	m
 WHITE	include/philosophers.h	/^# define WHITE /;"	d
 YELLOW	include/philosophers.h	/^# define YELLOW /;"	d
 check_input	srcs/check_input.c	/^int	*check_input(int argc, char *argv[])$/;"	f
 check_limits	srcs/check_input.c	/^static int	check_limits(long j)$/;"	f	file:
 check_zeros	srcs/check_input.c	/^static void	check_zeros(char *arg, int *input)$/;"	f	file:
 dead	include/philosophers.h	/^	int				dead;$/;"	m	struct:s_data
-death_check	srcs/actions.c	/^void	death_check(t_data *data, int n)$/;"	f
 death_mutex	include/philosophers.h	/^	pthread_mutex_t	death_mutex;$/;"	m	struct:s_data
 death_timer	include/philosophers.h	/^	long long		death_timer;$/;"	m	struct:s_philo
-eat	srcs/actions.c	/^void	eat(t_data *data, int n, int k)$/;"	f
+eating	include/philosophers.h	/^	int				eating;$/;"	m	struct:s_philo
 exec_philo	srcs/philosophers.c	/^static void	exec_philo(t_data *data)$/;"	f	file:
 found_error	srcs/check_input.c	/^static void	found_error(int *input, char *str, int i)$/;"	f	file:
 ft_atol	srcs/check_input.c	/^static int	ft_atol(const char *str)$/;"	f	file:
-get_time_ms	srcs/get_time.c	/^long long	get_time_ms(long long init_time)$/;"	f
-has_eaten	include/philosophers.h	/^	int				has_eaten;$/;"	m	struct:s_philo
+get_time_ms	srcs/utils.c	/^long long	get_time_ms(long long init_time)$/;"	f
 index	include/philosophers.h	/^	int				index;$/;"	m	struct:s_philo
 init_data	srcs/philosophers.c	/^static void	init_data(t_data *data, int *input)$/;"	f	file:
 init_time	include/philosophers.h	/^	long long		init_time;$/;"	m	struct:s_data
 input_error	srcs/error_handling.c	/^void	input_error(char *str, int i)$/;"	f
-loop	srcs/routine.c	/^static void	loop(t_data *data, int n)$/;"	f	file:
 main	srcs/philosophers.c	/^int	main(int argc, char *argv[])$/;"	f
 number_of_meals	include/philosophers.h	/^	int				number_of_meals;$/;"	m	struct:s_data
 other_error	srcs/error_handling.c	/^void	other_error(char *str)$/;"	f
 philo	include/philosophers.h	/^	pthread_t		philo;$/;"	m	struct:s_philo
 philo_amount	include/philosophers.h	/^	int				philo_amount;$/;"	m	struct:s_data
+philo_eat	srcs/routine.c	/^static void	philo_eat(t_data *data, int philo_id)$/;"	f	file:
 philo_fork	include/philosophers.h	/^	pthread_mutex_t	philo_fork;$/;"	m	struct:s_philo
+philo_sleep	srcs/routine.c	/^static void	philo_sleep(t_data *data, int philo_id)$/;"	f	file:
 phs	include/philosophers.h	/^	t_philo			*phs;$/;"	m	struct:s_data
-print_message	srcs/actions.c	/^void	print_message(int n, char *str, t_data *data, int m_id)$/;"	f
+print_message	srcs/utils.c	/^void	print_message(int n, char *str, t_data *data, int m_id)$/;"	f
 print_mutex	include/philosophers.h	/^	pthread_mutex_t	print_mutex;$/;"	m	struct:s_data
 routine	srcs/routine.c	/^void	*routine(t_data *data)$/;"	f
 s_data	include/philosophers.h	/^typedef struct s_data$/;"	s
 s_philo	include/philosophers.h	/^typedef struct s_philo$/;"	s
-sleep_philo	srcs/actions.c	/^void	sleep_philo(t_data *data, int n)$/;"	f
+sleep_wrapper	srcs/routine.c	/^static void	sleep_wrapper(long long time, t_data *data)$/;"	f	file:
 start	include/philosophers.h	/^	int				start;$/;"	m	struct:s_data
 t_data	include/philosophers.h	/^}			t_data;$/;"	t	typeref:struct:s_data
 t_philo	include/philosophers.h	/^}					t_philo;$/;"	t	typeref:struct:s_philo
 time_to_die	include/philosophers.h	/^	int				time_to_die;$/;"	m	struct:s_data
-time_to_eat	include/philosophers.h	/^	int				time_to_eat;$/;"	m	struct:s_data
-time_to_sleep	include/philosophers.h	/^	int				time_to_sleep;$/;"	m	struct:s_data
+time_to_eat	include/philosophers.h	/^	long long		time_to_eat;$/;"	m	struct:s_data
+time_to_sleep	include/philosophers.h	/^	long long		time_to_sleep;$/;"	m	struct:s_data
 usage_error	srcs/error_handling.c	/^void	usage_error(char **argv)$/;"	f

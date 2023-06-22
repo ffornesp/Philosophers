@@ -6,7 +6,7 @@
 #    By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/01 16:46:56 by ffornes-          #+#    #+#              #
-#    Updated: 2023/06/22 14:40:30 by ffornes-         ###   ########.fr        #
+#    Updated: 2023/06/22 16:12:26 by ffornes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,11 @@ OBJ_DIR = objs/
 OBJ_FILES = $(SRC_FILES:.c=.o)
 OBJS = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
 
+DEP_FILES = $(SRC_FILES:.c=.d)
+DEPS = $(addprefix $(OBJ_DIR), $(DEP_FILES))
+
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -MMD
 RM = rm -f
 
 INCLUDE = -I ./include/
@@ -28,20 +31,23 @@ INCLUDE = -I ./include/
 all:	$(NAME)
 
 $(NAME):	$(OBJ_DIR) $(OBJS)
-			$(CC) $(INCLUDE) $(OBJS) -o $@
+			$(CC) $(OBJS) -o $@
 
 $(OBJ_DIR):
 			@mkdir $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-			$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
+			$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
 			$(RM) $(OBJS)
+			$(RM) $(DEPS)
 
 fclean:		clean
 			$(RM) $(NAME)
 
 re:			fclean all
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re

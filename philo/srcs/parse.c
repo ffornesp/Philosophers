@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/22 14:49:33 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:33:38 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	ft_atol(const char *str)
 	return (check_limits(j));
 }
 
-static void	check_digits(char *arg, int *input)
+static int	check_digits(char *arg, int *input)
 {
 	int	i;
 
@@ -64,11 +64,15 @@ static void	check_digits(char *arg, int *input)
 		if (arg[i] >= '0' && arg[i] <= '9')
 			i++;
 		else
-			found_error(input, arg, 0);
+		{
+			found_error(input, arg);
+			return (-1);
+		}
 	}
+	return (0);
 }
 
-static void	check_zeros(char *arg, int *input)
+static int	check_zeros(char *arg, int *input)
 {
 	char	*aux;
 
@@ -78,31 +82,35 @@ static void	check_zeros(char *arg, int *input)
 	while (*arg == '0')
 		arg++;
 	if (*arg != '\0')
-		found_error(input, aux, 0);
+	{
+		found_error(input, aux);
+		return (-1);
+	}
+	return (0);
 }
 
-int	*check_input(int argc, char *argv[])
+int	check_input(int argc, char *argv[], int *input)
 {
 	int	i;
 	int	n;
-	int	*input;
 
 	i = 1;
-	input = malloc(sizeof(int) * argc - 1);
 	while (argv[i])
 	{
 		if (argv[i][0] == '-')
-			found_error(input, argv[i], 0);
-		check_digits(argv[i], input);
+			return (found_error(input, argv[i]));
+		if (check_digits(argv[i], input) < 0)
+			return (-1);
 		n = ft_atol(argv[i]);
 		if (n <= 0)
-			found_error(input, argv[i], 0);
+			return (found_error(input, argv[i]));
 		if (n == 0)
-			check_zeros(argv[i], input);
+			if (check_zeros(argv[i], input) < 0)
+				return (-1);
 		input[i - 1] = n;
 		i++;
 	}
 	if (argc < 6)
 		input[4] = 0;
-	return (input);
+	return (0);
 }

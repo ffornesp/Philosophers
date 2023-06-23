@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/22 14:51:26 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:37:16 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	death_check(t_data *data, int p_id)
 	if (time >= 0)
 	{
 		if (data->dead)
+		{
+			pthread_mutex_unlock(&data->death_mutex);
 			return (1);
+		}
 		if (!pthread_mutex_lock(&data->death_mutex))
 		{
 			if (data->dead)
@@ -57,7 +60,7 @@ void	print_message(int n, char *str, t_data *data)
 
 	time = get_time_ms(data->init_time);
 	if (!pthread_mutex_lock(&data->print_mutex))
-		printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n", time, n, str);
+		printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n"WHITE, time, n, str);
 	pthread_mutex_unlock(&data->print_mutex);
 }
 

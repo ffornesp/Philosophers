@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/22 11:40:00 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:21:53 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ int	main(int argc, char *argv[])
 
 	if (argc < 5 || argc > 6)
 		usage_error(argv);
-	input = check_input(argc, argv);
+	input = malloc(sizeof(int) * argc - 1);
+	if (check_input(argc, argv, input) < 0)
+		return (0);
 	data.phs = malloc(sizeof(t_philo) * input[0]);
 	if (!data.phs)
 	{

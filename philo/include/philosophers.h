@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/22 14:51:48 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:25:07 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ typedef struct s_data
 	t_philo			*phs;
 	int				philo_amount;
 	int				time_to_die;
-	long long		time_to_eat;
-	long long		time_to_sleep;
+	int				time_to_eat;
+	int				time_to_sleep;
 	int				number_of_meals;
 
 	long long		init_time;
@@ -50,9 +50,8 @@ typedef struct s_data
 	int				dead;
 }			t_data;
 
-void		found_error(int *input, char *str, int i);
-int			*check_input(int argc, char *argv[]);
-void		input_error(char *str, int i);
+int			found_error(int *input, char *str);
+int			check_input(int argc, char *argv[], int *input);
 void		usage_error(char **argv);
 void		other_error(char *str);
 

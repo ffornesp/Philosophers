@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/23 13:03:20 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/26 17:57:20 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,14 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	input = malloc(sizeof(int) * argc - 1);
+	if (!input)
+		return (0);
 	if (check_input(argc, argv, input) < 0)
 		return (0);
 	data.phs = malloc(sizeof(t_philo) * input[0]);
 	if (!data.phs)
 	{
 		free(input);
-		free(data.phs);
 		other_error("Not able to allocate philosophers\n");
 	}
 	init_data(&data, input);

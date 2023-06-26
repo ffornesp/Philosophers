@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:42:12 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/22 15:14:19 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:17:56 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	philo_sleep(t_data *data, int p_id)
 {
-	if (data->dead)
+	if (death_check(data, p_id) || data->dead)
 		return ;
 	print_message(p_id + 1, CYAN"is sleeping", data);
 	sleep_wrapper(data->time_to_sleep, data, p_id);
@@ -27,10 +27,14 @@ static void	eat_action(t_data *data, int p_id, int next)
 	pthread_mutex_lock(&data->phs[p_id].philo_fork);
 	print_message(p_id + 1, YELLOW"has taken a fork", data);
 	if (data->philo_amount == 1)
-	{
-		pthread_mutex_unlock(&data->phs[p_id].philo_fork);
 		while (!death_check(data, p_id))
 			;
+	while (!death_check(data, p_id))
+		if (!data->phs[next].eating)
+			break ;
+	if (data->dead)
+	{
+		pthread_mutex_unlock(&data->phs[p_id].philo_fork);
 		return ;
 	}
 	pthread_mutex_lock(&data->phs[next].philo_fork);
@@ -51,12 +55,12 @@ static void	philo_eat(t_data *data, int p_id)
 	next = p_id + 1;
 	if (next >= data->philo_amount)
 		next = 0;
-	if (data->phs[next].eating)
+	if (data->phs[next].eating && !data->dead)
 		print_message(p_id + 1, WHITE"is thinking", data);
 	while (!death_check(data, p_id))
 		if (!data->phs[next].eating)
 			break ;
-	if (!death_check(data, p_id))
+	if (!death_check(data, p_id) && !data->dead)
 		eat_action(data, p_id, next);
 	philo_sleep(data, p_id);
 }

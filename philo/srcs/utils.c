@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/23 11:37:16 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:26:33 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@ int	death_check(t_data *data, int p_id)
 	if (time >= 0)
 	{
 		if (data->dead)
-		{
-			pthread_mutex_unlock(&data->death_mutex);
 			return (1);
-		}
 		if (!pthread_mutex_lock(&data->death_mutex))
 		{
 			if (data->dead)
+			{
+				pthread_mutex_unlock(&data->death_mutex);
 				return (1);
+			}
 			data->dead = 1;
+			usleep(200);
+			usleep(200);
 			print_message(p_id + 1, RED"has died", data);
 			pthread_mutex_unlock(&data->death_mutex);
 			return (1);
@@ -49,6 +51,8 @@ void	sleep_wrapper(long long time, t_data *data, int p_id)
 	while (get_time_ms(0) - init_time < time)
 	{
 		if (data && death_check(data, p_id))
+			break ;
+		if (data && data->dead)
 			break ;
 		usleep(50);
 	}

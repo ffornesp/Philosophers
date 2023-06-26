@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/23 11:25:07 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:24:46 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int			found_error(int *input, char *str);
 int			check_input(int argc, char *argv[], int *input);
 void		usage_error(char **argv);
 void		other_error(char *str);
+
+int			ft_atol(const char *str);
 
 long long	get_time_ms(long long init_time);
 void		print_message(int n, char *str, t_data *data);

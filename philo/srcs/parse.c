@@ -6,50 +6,27 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/23 11:33:38 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:28:18 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 #include <stdlib.h>
-#include <limits.h>
 
-static int	check_limits(long j)
+static int	check_digit_amount(char *str)
 {
 	int	i;
 
-	if (j > INT_MAX || j < INT_MIN)
-		return (0);
-	i = (int)j;
-	return (i);
-}
-
-static int	ft_atol(const char *str)
-{
-	int		i;
-	long	j;
-
 	i = 0;
-	j = 0;
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-		|| *str == '\v' || *str == '\f' || *str == '\r')
+	if (str[i] == '+')
 		str++;
-	while (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			i++;
-		if (*(str + 1) == '+' || *(str + 1) == '-')
-			return (0);
+	while (str[i] == '0')
 		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		j = (j * 10) + (*str - '0');
-		str++;
-	}
-	if (i > 0)
-		j *= -1;
-	return (check_limits(j));
+	while (str[i])
+		i++;
+	if (i > 11)
+		return (0);
+	return (1);
 }
 
 static int	check_digits(char *arg, int *input)
@@ -101,6 +78,8 @@ int	check_input(int argc, char *argv[], int *input)
 			return (found_error(input, argv[i]));
 		if (check_digits(argv[i], input) < 0)
 			return (-1);
+		if (!check_digit_amount(argv[i]))
+			return (found_error(input, argv[i]));
 		n = ft_atol(argv[i]);
 		if (n <= 0)
 			return (found_error(input, argv[i]));

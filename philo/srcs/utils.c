@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/26 13:26:33 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/26 18:10:14 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/time.h>
+
+static void	death_message(int n, char *str, t_data *data)
+{
+	long long	time;
+
+	time = get_time_ms(data->init_time);
+	if (!pthread_mutex_lock(&data->print_mutex))
+		printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n"WHITE, time, n, str);
+	pthread_mutex_unlock(&data->print_mutex);
+}
 
 int	death_check(t_data *data, int p_id)
 {
@@ -33,9 +43,7 @@ int	death_check(t_data *data, int p_id)
 				return (1);
 			}
 			data->dead = 1;
-			usleep(200);
-			usleep(200);
-			print_message(p_id + 1, RED"has died", data);
+			death_message(p_id + 1, RED"has died", data);
 			pthread_mutex_unlock(&data->death_mutex);
 			return (1);
 		}
@@ -62,10 +70,13 @@ void	print_message(int n, char *str, t_data *data)
 {
 	long long	time;
 
-	time = get_time_ms(data->init_time);
-	if (!pthread_mutex_lock(&data->print_mutex))
-		printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n"WHITE, time, n, str);
-	pthread_mutex_unlock(&data->print_mutex);
+	if (!data->dead)
+	{
+		time = get_time_ms(data->init_time);
+		if (!pthread_mutex_lock(&data->print_mutex) && !data->dead)
+			printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n"WHITE, time, n, str);
+		pthread_mutex_unlock(&data->print_mutex);
+	}
 }
 
 long long	get_time_ms(long long init_time)

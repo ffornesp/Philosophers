@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:26:42 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 19:03:44 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 19:30:19 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ void	*philo_dead(t_philo *philo)
 	if (philo->data->dead)
 		return (NULL);
 	philo->data->dead = 1;
-	print_message(philo, RED"died\n", 1, 0);
+	print_message(philo, RED"died", 1, 0);
 	return (NULL);
 }
 
 static int	philo_eat(t_philo *philo)
 {
-	if (philo->times_ate >= philo->data->number_of_meals)
-		return (1);
+	if (philo->data->number_of_meals)
+		if (philo->times_ate >= philo->data->number_of_meals)
+			return (1);
 	pthread_mutex_lock(philo->fork_left);
 	print_message(philo, YELLOW"has taken a fork", 0, 0);
 	if (!philo->fork_right)
@@ -44,13 +45,11 @@ static int	philo_eat(t_philo *philo)
 
 void	*routine(t_philo *philo)
 {
-	if ((philo->pid + 1) % 2)
-	{
-		print_message(philo, WHITE"is thinking", 0, 0);
-		usleep_wrapper(200, philo->data->dead);
-	}
 	pthread_mutex_lock(&philo->data->start_mutex);
 	pthread_mutex_unlock(&philo->data->start_mutex);
+	print_message(philo, WHITE"is thinking", 0, 0);
+	if (!(philo->pid & 1))
+		usleep_wrapper(philo->data->time_to_eat, philo->data->dead);
 	while (!philo->data->dead)
 	{
 		if (philo_eat(philo))

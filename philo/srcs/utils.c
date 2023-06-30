@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:04:30 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 18:54:59 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 19:30:08 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	print_message(t_philo *philo, char *str, int death, int meal)
 		printf(BLUE"[%04lld ms]\t"WHITE"[%03d] %s\n"WHITE, \
 		get_time_ms(philo->data->init_time), \
 		philo->pid, str);
-		pthread_mutex_unlock(&philo->data->print_mutex);
 	}
 	if (pthread_mutex_unlock(&philo->data->print_mutex))
 		return (1);

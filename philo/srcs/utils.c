@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:04:30 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 18:19:45 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:54:59 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include "philosophers.h"
+
+void	meal_count(t_philo *philo)
+{
+	static int	count;
+
+	count++;
+	if (count >= philo->data->philo_amount)
+	{
+		count = 0;
+		philo->data->meals_served++;
+	}
+}
 
 void	usleep_wrapper(long long time, int dead)
 {
@@ -28,12 +40,14 @@ void	usleep_wrapper(long long time, int dead)
 	}
 }
 
-int	print_message(t_philo *philo, char *str, int print_death)
+int	print_message(t_philo *philo, char *str, int death, int meal)
 {
 	if (pthread_mutex_lock(&philo->data->print_mutex))
 		return (1);
-	if (!philo->data->dead || print_death)
+	if (!philo->data->dead || death)
 	{
+		if (meal)
+			meal_count(philo);
 		printf(BLUE"[%04lld ms]\t"WHITE"[%03d] %s\n"WHITE, \
 		get_time_ms(philo->data->init_time), \
 		philo->pid, str);

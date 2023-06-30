@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:08:43 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 18:27:04 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:39:08 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	parse(int argc, char *argv[], t_table *table)
 {
 	if (argc < 5 || argc > 6)
 		return (ERROR_ARGS);
-	if (check_and_set(argv[1], &table->philo_amount) || \
+	if (check_and_set(argv[1], &table->data.philo_amount) || \
 		check_and_set(argv[2], &table->data.time_to_die) || \
 		check_and_set(argv[3], &table->data.time_to_eat) || \
 		check_and_set(argv[4], &table->data.time_to_sleep))
@@ -52,7 +52,7 @@ int	parse(int argc, char *argv[], t_table *table)
 	if (argc > 5)
 		if (check_and_set(argv[5], &table->data.number_of_meals))
 			return (ERROR_ARGS);
-	if (table->philo_amount < 1)
+	if (table->data.philo_amount < 1)
 		return (ERROR_ARGS);
 	if (table->data.time_to_die < 1 || table->data.time_to_eat < 1 || \
 		table->data.time_to_sleep < 1)

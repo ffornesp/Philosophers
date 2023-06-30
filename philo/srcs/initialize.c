@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:01:19 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 18:32:54 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:53:07 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ static void	set_forks(t_philo *philo, pthread_mutex_t *forks, int n)
 static int	init_mutex(t_table *table)
 {
 	int	i;
+	int	n;
 
-	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_amount);
+	n = table->data.philo_amount;
+	table->forks = malloc(sizeof(pthread_mutex_t) * n);
 	if (table->forks == NULL)
 		return (ERROR_MEM);
 	if (pthread_mutex_init(&table->data.start_mutex, NULL))
@@ -46,7 +48,7 @@ static int	init_mutex(t_table *table)
 	if (pthread_mutex_init(&table->data.print_mutex, NULL))
 		return (ERROR_MTX);
 	i = 0;
-	while (i < table->philo_amount)
+	while (i < n)
 		if (pthread_mutex_init(&table->forks[i++], NULL))
 			return (ERROR_MTX);
 	return (0);
@@ -55,18 +57,21 @@ static int	init_mutex(t_table *table)
 static int	init_threads(t_table *table)
 {
 	int	i;
+	int	n;
 
-	table->philos = malloc(sizeof(t_philo) * table->philo_amount);
+	n = table->data.philo_amount;
+	table->philos = malloc(sizeof(t_philo) * n);
 	if (table->philos == NULL)
 		return (ERROR_MEM);
 	i = 0;
-	while (i < table->philo_amount)
+	while (i < n)
 	{
 		table->philos[i].pid = i + 1;
 		table->philos[i].times_ate = 0;
-		set_forks(&table->philos[i], table->forks, table->philo_amount);
+		set_forks(&table->philos[i], table->forks, n);
 		table->philos[i++].data = &table->data;
 		table->data.dead = 0;
+		table->data.meals_served = 0;
 	}
 	if (start_threads(table))
 		return (ERROR_TC);

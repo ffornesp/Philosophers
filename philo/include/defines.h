@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 10:04:26 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 18:25:44 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:38:45 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 typedef struct s_data
 {
+	int				philo_amount;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -54,7 +55,6 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	int				philo_amount;
 	t_data			data;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;

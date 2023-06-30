@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 16:28:46 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/30 18:19:28 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:54:03 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void		meal_count(t_philo *philo);
 void		*death_check(t_table *table);
 void		*philo_dead(t_philo *philo);
 
-int			print_message(t_philo *philo, char *str, int print_death);
+int			print_message(t_philo *philo, char *str, int death, int meal);
 long long	get_time_ms(long long init_time);
 void		usleep_wrapper(long long time, int dead);
 int			put_error(int error_id);

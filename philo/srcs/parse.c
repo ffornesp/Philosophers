@@ -1,95 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_input.c                                      :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 11:09:23 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/26 18:28:18 by ffornes-         ###   ########.fr       */
+/*   Created: 2023/06/30 10:08:43 by ffornes-          #+#    #+#             */
+/*   Updated: 2023/06/30 18:27:04 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
-#include <stdlib.h>
+#include "defines.h"
+#include <limits.h>
 
-static int	check_digit_amount(char *str)
+static int	check_and_set(char *str, int *dst)
 {
-	int	i;
+	int		i;
+	int		n_flag;
+	long	out;
 
 	i = 0;
-	if (str[i] == '+')
-		str++;
-	while (str[i] == '0')
-		str++;
+	n_flag = 1;
+	if (str[i] == '+' || str[i] == '-')
+		if (str[i++] == '-')
+			n_flag = -1;
+	if (str[i] == '\0')
+		return (ERROR_ARGS);
+	out = 0;
 	while (str[i])
-		i++;
-	if (i > 11)
-		return (0);
-	return (1);
-}
-
-static int	check_digits(char *arg, int *input)
-{
-	int	i;
-
-	i = 0;
-	while (arg[i])
 	{
-		if (arg[i] == '+' && !i)
-			i++;
-		if (arg[i] >= '0' && arg[i] <= '9')
-			i++;
-		else
-		{
-			found_error(input, arg);
-			return (-1);
-		}
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (ERROR_ARGS);
+		out = (out * 10) + (str[i++] - '0');
 	}
+	*dst = out * n_flag;
+	if ((out * n_flag) > INT_MAX || (out * n_flag) < INT_MIN)
+		return (ERROR_ARGS);
 	return (0);
 }
 
-static int	check_zeros(char *arg, int *input)
+int	parse(int argc, char *argv[], t_table *table)
 {
-	char	*aux;
-
-	aux = arg;
-	if (*arg == '+')
-		arg++;
-	while (*arg == '0')
-		arg++;
-	if (*arg != '\0')
-	{
-		found_error(input, aux);
-		return (-1);
-	}
-	return (0);
-}
-
-int	check_input(int argc, char *argv[], int *input)
-{
-	int	i;
-	int	n;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (argv[i][0] == '-')
-			return (found_error(input, argv[i]));
-		if (check_digits(argv[i], input) < 0)
-			return (-1);
-		if (!check_digit_amount(argv[i]))
-			return (found_error(input, argv[i]));
-		n = ft_atol(argv[i]);
-		if (n <= 0)
-			return (found_error(input, argv[i]));
-		if (n == 0)
-			if (check_zeros(argv[i], input) < 0)
-				return (-1);
-		input[i - 1] = n;
-		i++;
-	}
-	if (argc < 6)
-		input[4] = 0;
+	if (argc < 5 || argc > 6)
+		return (ERROR_ARGS);
+	if (check_and_set(argv[1], &table->philo_amount) || \
+		check_and_set(argv[2], &table->data.time_to_die) || \
+		check_and_set(argv[3], &table->data.time_to_eat) || \
+		check_and_set(argv[4], &table->data.time_to_sleep))
+		return (ERROR_ARGS);
+	table->data.number_of_meals = 0;
+	if (argc > 5)
+		if (check_and_set(argv[5], &table->data.number_of_meals))
+			return (ERROR_ARGS);
+	if (table->philo_amount < 1)
+		return (ERROR_ARGS);
+	if (table->data.time_to_die < 1 || table->data.time_to_eat < 1 || \
+		table->data.time_to_sleep < 1)
+		return (ERROR_ARGS);
 	return (0);
 }

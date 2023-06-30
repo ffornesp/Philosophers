@@ -5,86 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 16:13:52 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/26 18:09:44 by ffornes-         ###   ########.fr       */
+/*   Created: 2023/06/30 10:06:13 by ffornes-          #+#    #+#             */
+/*   Updated: 2023/06/30 18:26:06 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "philosophers.h"
 #include <stdlib.h>
-#include <stdio.h>
+#include <pthread.h>
+#include "philosophers.h"
+#include "defines.h"
 
-static void	exec_philo(t_data *data)
+static void	thread_join(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->philo_amount)
-		if (pthread_create(&data->phs[i++].philo, NULL, (void *)routine, data))
-			printf("Failed to create thread\n");
-	data->init_time = get_time_ms(0);
-	data->start = 1;
-	i = 0;
-	while (i < data->philo_amount)
-	{
-		if (pthread_join(data->phs[i].philo, NULL))
-			printf("Failed to join thread\n");
-		pthread_mutex_destroy(&data->phs[i++].philo_fork);
-	}
-	pthread_mutex_destroy(&data->death_mutex);
-	pthread_mutex_destroy(&data->print_mutex);
+	while (i < table->philo_amount)
+		pthread_join(table->philos[i++].thread_id, NULL);
+	pthread_join(table->death_t, NULL);
 }
 
-static void	init_data(t_data *data, int *input)
+static int	clean_exit(t_table *table)
 {
 	int	i;
+	int	error;
 
 	i = 0;
-	data->philo_amount = input[0];
-	data->time_to_die = input[1];
-	data->time_to_eat = input[2];
-	data->time_to_sleep = input[3];
-	data->number_of_meals = input[4];
-	data->init_time = 0;
-	data->start = 0;
-	pthread_mutex_init(&data->death_mutex, NULL);
-	data->dead = 0;
-	pthread_mutex_init(&data->print_mutex, NULL);
-	while (i < data->philo_amount)
-	{
-		data->phs[i].index = -1;
-		data->phs[i].eating = 0;
-		data->phs[i].death_timer = 0;
-		pthread_mutex_init(&data->phs[i].philo_fork, NULL);
-		i++;
-	}
+	error = 0;
+	while (i < table->philo_amount)
+		error += pthread_mutex_destroy(&(table->forks[i++]));
+	error += pthread_mutex_destroy(&(table->data.print_mutex));
+	error += pthread_mutex_destroy(&(table->data.start_mutex));
+	free(table->philos);
+	free(table->forks);
+	return (error);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_data			data;
-	int				*input;
+	t_table	table;
+	int		error;
 
-	if (argc < 5 || argc > 6)
-	{
-		usage_error(argv);
-		return (0);
-	}
-	input = malloc(sizeof(int) * argc - 1);
-	if (!input)
-		return (0);
-	if (check_input(argc, argv, input) < 0)
-		return (0);
-	data.phs = malloc(sizeof(t_philo) * input[0]);
-	if (!data.phs)
-	{
-		free(input);
-		other_error("Not able to allocate philosophers\n");
-	}
-	init_data(&data, input);
-	exec_philo(&data);
-	free(input);
-	free(data.phs);
-	return (0);
+	if (parse(argc, argv, &table))
+		return (put_error(ERROR_ARGS));
+	error = init_structs(&table);
+	if (error)
+		return (put_error(error));
+	thread_join(&table);
+	return (clean_exit(&table));
 }

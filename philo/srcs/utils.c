@@ -5,78 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 14:27:34 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/26 18:10:14 by ffornes-         ###   ########.fr       */
+/*   Created: 2023/06/30 12:04:30 by ffornes-          #+#    #+#             */
+/*   Updated: 2023/06/30 18:19:45 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include "philosophers.h"
 
-static void	death_message(int n, char *str, t_data *data)
-{
-	long long	time;
-
-	time = get_time_ms(data->init_time);
-	if (!pthread_mutex_lock(&data->print_mutex))
-		printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n"WHITE, time, n, str);
-	pthread_mutex_unlock(&data->print_mutex);
-}
-
-int	death_check(t_data *data, int p_id)
-{
-	long long	time;
-
-	time = get_time_ms(data->init_time) - data->phs[p_id].death_timer;
-	time -= data->time_to_die;
-	if (time >= 0)
-	{
-		if (data->dead)
-			return (1);
-		if (!pthread_mutex_lock(&data->death_mutex))
-		{
-			if (data->dead)
-			{
-				pthread_mutex_unlock(&data->death_mutex);
-				return (1);
-			}
-			data->dead = 1;
-			death_message(p_id + 1, RED"has died", data);
-			pthread_mutex_unlock(&data->death_mutex);
-			return (1);
-		}
-	}
-	return (0);
-}
-
-void	sleep_wrapper(long long time, t_data *data, int p_id)
+void	usleep_wrapper(long long time, int dead)
 {
 	long long	init_time;
 
 	init_time = get_time_ms(0);
-	while (get_time_ms(0) - init_time < time)
+	while (!dead)
 	{
-		if (data && death_check(data, p_id))
+		if ((get_time_ms(0) - init_time) >= time)
 			break ;
-		if (data && data->dead)
-			break ;
-		usleep(50);
+		usleep(10);
 	}
 }
 
-void	print_message(int n, char *str, t_data *data)
+int	print_message(t_philo *philo, char *str, int print_death)
 {
-	long long	time;
-
-	if (!data->dead)
+	if (pthread_mutex_lock(&philo->data->print_mutex))
+		return (1);
+	if (!philo->data->dead || print_death)
 	{
-		time = get_time_ms(data->init_time);
-		if (!pthread_mutex_lock(&data->print_mutex) && !data->dead)
-			printf(BLUE"[%04lld ms]\t"WHITE"%d %s\n"WHITE, time, n, str);
-		pthread_mutex_unlock(&data->print_mutex);
+		printf(BLUE"[%04lld ms]\t"WHITE"[%03d] %s\n"WHITE, \
+		get_time_ms(philo->data->init_time), \
+		philo->pid, str);
+		pthread_mutex_unlock(&philo->data->print_mutex);
 	}
+	if (pthread_mutex_unlock(&philo->data->print_mutex))
+		return (1);
+	return (0);
 }
 
 long long	get_time_ms(long long init_time)
@@ -89,3 +54,5 @@ long long	get_time_ms(long long init_time)
 	current_time -= init_time;
 	return (current_time);
 }
+
+

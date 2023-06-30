@@ -5,87 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 14:42:12 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/06/26 13:17:56 by ffornes-         ###   ########.fr       */
+/*   Created: 2023/06/30 12:26:42 by ffornes-          #+#    #+#             */
+/*   Updated: 2023/06/30 18:21:54 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "defines.h"
 #include "philosophers.h"
-#include <stdio.h>
-#include <unistd.h>
+#include <pthread.h>
 
-static void	philo_sleep(t_data *data, int p_id)
+void	*philo_dead(t_philo *philo)
 {
-	if (death_check(data, p_id) || data->dead)
-		return ;
-	print_message(p_id + 1, CYAN"is sleeping", data);
-	sleep_wrapper(data->time_to_sleep, data, p_id);
+	if (philo->data->dead)
+		return (NULL);
+	philo->data->dead = 1;
+	print_message(philo, RED"died\n", 1);
+	return (NULL);
 }
 
-static void	eat_action(t_data *data, int p_id, int next)
+static int	philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(&data->phs[p_id].philo_fork);
-	print_message(p_id + 1, YELLOW"has taken a fork", data);
-	if (data->philo_amount == 1)
-		while (!death_check(data, p_id))
-			;
-	while (!death_check(data, p_id))
-		if (!data->phs[next].eating)
-			break ;
-	if (data->dead)
+	pthread_mutex_lock(philo->fork_left);
+	print_message(philo, YELLOW"has taken a fork", 0);
+	if (!philo->fork_right)
+		return (1);
+	pthread_mutex_lock(philo->fork_right);
+	print_message(philo, YELLOW"has taken a fork", 0);
+	print_message(philo, GREEN"is eating", 0);
+	philo->times_ate++;
+	philo->last_meal = get_time_ms(0);
+	usleep_wrapper(philo->data->time_to_eat, philo->data->dead);
+	pthread_mutex_unlock(philo->fork_left);
+	pthread_mutex_unlock(philo->fork_right);
+	return (0);
+}
+
+void	*routine(t_philo *philo)
+{
+	if ((philo->pid + 1) % 2)
 	{
-		pthread_mutex_unlock(&data->phs[p_id].philo_fork);
-		return ;
+		print_message(philo, WHITE"is thinking", 0);
+		usleep_wrapper(200, philo->data->dead);
 	}
-	pthread_mutex_lock(&data->phs[next].philo_fork);
-	print_message(p_id + 1, YELLOW"has taken a fork", data);
-	print_message(p_id + 1, GREEN"is eating", data);
-	data->phs[p_id].eating = 1;
-	data->phs[p_id].death_timer = get_time_ms(data->init_time);
-	sleep_wrapper(data->time_to_eat, data, p_id);
-	data->phs[p_id].eating = 0;
-	pthread_mutex_unlock(&data->phs[p_id].philo_fork);
-	pthread_mutex_unlock(&data->phs[next].philo_fork);
-}
-
-static void	philo_eat(t_data *data, int p_id)
-{
-	int	next;
-
-	next = p_id + 1;
-	if (next >= data->philo_amount)
-		next = 0;
-	if (data->phs[next].eating && !data->dead)
-		print_message(p_id + 1, WHITE"is thinking", data);
-	while (!death_check(data, p_id))
-		if (!data->phs[next].eating)
-			break ;
-	if (!death_check(data, p_id) && !data->dead)
-		eat_action(data, p_id, next);
-	philo_sleep(data, p_id);
-}
-
-void	*routine(t_data *data)
-{
-	int				i;
-	int				times;
-
-	i = 0;
-	times = 0;
-	while (data->phs[i].index > 0)
-		i++;
-	data->phs[i].index = i + 1;
-	while (!data->start)
-		;
-	while (!data->dead)
+	pthread_mutex_lock(&philo->data->start_mutex);
+	pthread_mutex_unlock(&philo->data->start_mutex);
+	while (!philo->data->dead)
 	{
-		if (data->number_of_meals)
-			if (times >= data->number_of_meals)
-				break ;
-		if (i & 1)
-			usleep(300);
-		philo_eat(data, i);
-		times++;
+		if (philo_eat(philo))
+			return (NULL);
+		print_message(philo, CYAN"is sleeping", 0);
+		usleep_wrapper(philo->data->time_to_sleep, philo->data->dead);
+		print_message(philo, WHITE"is thinking", 0);
+		if (philo->data->number_of_meals > 0 && \
+			philo->times_ate >= philo->data->number_of_meals)
+			philo->data->dead = 1;
 	}
 	return (NULL);
 }

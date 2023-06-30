@@ -6,14 +6,17 @@
 #    By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/01 16:46:56 by ffornes-          #+#    #+#              #
-#    Updated: 2023/06/26 18:23:09 by ffornes-         ###   ########.fr        #
+#    Updated: 2023/06/30 17:35:30 by ffornes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 SRC_DIR = srcs/
-SRC_FILES = philosophers.c error_handling.c parse.c routine.c utils.c atol.c
+SRC_FILES = philosophers.c \
+			parse.c errors.c \
+			initialize.c threads.c routine.c \
+			utils.c
 
 OBJ_DIR = objs/
 OBJ_FILES = $(SRC_FILES:.c=.o)
@@ -28,7 +31,7 @@ RM = rm -f
 
 INCLUDE = -I ./include/
 
-all:	$(NAME)
+all:	$(NAME) 
 
 $(NAME):	$(OBJ_DIR) $(OBJS)
 			$(CC) $(OBJS) -o $@
@@ -36,7 +39,7 @@ $(NAME):	$(OBJ_DIR) $(OBJS)
 $(OBJ_DIR):
 			@mkdir $@
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile
 			$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:

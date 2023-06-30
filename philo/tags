@@ -1,0 +1,78 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BLUE	include/defines.h	/^# define BLUE /;"	d
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror -MMD$/;"	m
+CYAN	include/defines.h	/^# define CYAN /;"	d
+DEFINES_H	include/defines.h	/^# define DEFINES_H$/;"	d
+DEPS	Makefile	/^DEPS = $(addprefix $(OBJ_DIR), $(DEP_FILES))$/;"	m
+DEP_FILES	Makefile	/^DEP_FILES = $(SRC_FILES:.c=.d)$/;"	m
+ERROR_ARGS	include/defines.h	/^# define ERROR_ARGS	/;"	d
+ERROR_MEM	include/defines.h	/^# define ERROR_MEM	/;"	d
+ERROR_MTX	include/defines.h	/^# define ERROR_MTX	/;"	d
+ERROR_TC	include/defines.h	/^# define ERROR_TC	/;"	d
+GREEN	include/defines.h	/^# define GREEN /;"	d
+INCLUDE	Makefile	/^INCLUDE = -I .\/include\/$/;"	m
+NAME	Makefile	/^NAME = philo$/;"	m
+OBJS	Makefile	/^OBJS = $(addprefix $(OBJ_DIR), $(OBJ_FILES))$/;"	m
+OBJ_DIR	Makefile	/^OBJ_DIR = objs\/$/;"	m
+OBJ_FILES	Makefile	/^OBJ_FILES = $(SRC_FILES:.c=.o)$/;"	m
+PHILOSOPHERS_H	include/philosophers.h	/^# define PHILOSOPHERS_H$/;"	d
+PURPLE	include/defines.h	/^# define PURPLE /;"	d
+RED	include/defines.h	/^# define RED /;"	d
+RM	Makefile	/^RM = rm -f$/;"	m
+SRC_DIR	Makefile	/^SRC_DIR = srcs\/$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES = philosophers.c \\$/;"	m
+WHITE	include/defines.h	/^# define WHITE /;"	d
+YELLOW	include/defines.h	/^# define YELLOW /;"	d
+check_and_set	srcs/parse.c	/^static int	check_and_set(char *str, int *dst)$/;"	f	file:
+clean_exit	srcs/philosophers.c	/^static int	clean_exit(t_table *table)$/;"	f	file:
+data	include/defines.h	/^	t_data			*data;$/;"	m	struct:s_philo
+data	include/defines.h	/^	t_data			data;$/;"	m	struct:s_table
+dead	include/defines.h	/^	int				dead;$/;"	m	struct:s_data
+death_check	srcs/threads.c	/^void	*death_check(t_table *table)$/;"	f
+death_t	include/defines.h	/^	pthread_t		death_t;$/;"	m	struct:s_table
+fork_left	include/defines.h	/^	pthread_mutex_t	*fork_left;$/;"	m	struct:s_philo
+fork_right	include/defines.h	/^	pthread_mutex_t	*fork_right;$/;"	m	struct:s_philo
+forks	include/defines.h	/^	pthread_mutex_t	*forks;$/;"	m	struct:s_table
+ft_putstr_fd	srcs/errors.c	/^static void	ft_putstr_fd(char *s, int fd)$/;"	f	file:
+get_time_ms	srcs/utils.c	/^long long	get_time_ms(long long init_time)$/;"	f
+init_mutex	srcs/initialize.c	/^static int	init_mutex(t_table *table)$/;"	f	file:
+init_structs	srcs/initialize.c	/^int	init_structs(t_table *table)$/;"	f
+init_threads	srcs/initialize.c	/^static int	init_threads(t_table *table)$/;"	f	file:
+init_time	include/defines.h	/^	long long		init_time;$/;"	m	struct:s_data
+last_meal	include/defines.h	/^	long long		last_meal;$/;"	m	struct:s_philo
+main	srcs/philosophers.c	/^int	main(int argc, char *argv[])$/;"	f
+meal_count	srcs/utils.c	/^void	meal_count(t_table *table)$/;"	f
+meals_served	include/defines.h	/^	int				meals_served;$/;"	m	struct:s_data
+number_of_meals	include/defines.h	/^	int				number_of_meals;$/;"	m	struct:s_data
+parse	srcs/parse.c	/^int	parse(int argc, char *argv[], t_table *table)$/;"	f
+philo_amount	include/defines.h	/^	int				philo_amount;$/;"	m	struct:s_table
+philo_dead	srcs/routine.c	/^void	*philo_dead(t_philo *philo)$/;"	f
+philo_eat	srcs/routine.c	/^static int	philo_eat(t_philo *philo)$/;"	f	file:
+philos	include/defines.h	/^	t_philo			*philos;$/;"	m	struct:s_table
+pid	include/defines.h	/^	int				pid;$/;"	m	struct:s_philo
+print_message	srcs/utils.c	/^int	print_message(t_philo *philo, char *str, int print_death)$/;"	f
+print_mutex	include/defines.h	/^	pthread_mutex_t	print_mutex;$/;"	m	struct:s_data
+put_error	srcs/errors.c	/^int	put_error(int error_id)$/;"	f
+routine	srcs/routine.c	/^void	*routine(t_philo *philo)$/;"	f
+s_data	include/defines.h	/^typedef struct s_data$/;"	s
+s_philo	include/defines.h	/^typedef struct s_philo$/;"	s
+s_table	include/defines.h	/^typedef struct s_table$/;"	s
+set_forks	srcs/initialize.c	/^static void	set_forks(t_philo *philo, pthread_mutex_t *forks, int n)$/;"	f	file:
+start_mutex	include/defines.h	/^	pthread_mutex_t	start_mutex;$/;"	m	struct:s_data
+start_threads	srcs/threads.c	/^int	start_threads(t_table *table)$/;"	f
+t_data	include/defines.h	/^}			t_data;$/;"	t	typeref:struct:s_data
+t_philo	include/defines.h	/^}					t_philo;$/;"	t	typeref:struct:s_philo
+t_table	include/defines.h	/^}					t_table;$/;"	t	typeref:struct:s_table
+thread_id	include/defines.h	/^	pthread_t		thread_id;$/;"	m	struct:s_philo
+thread_join	srcs/philosophers.c	/^static void	thread_join(t_table *table)$/;"	f	file:
+time_to_die	include/defines.h	/^	int				time_to_die;$/;"	m	struct:s_data
+time_to_eat	include/defines.h	/^	int				time_to_eat;$/;"	m	struct:s_data
+time_to_sleep	include/defines.h	/^	int				time_to_sleep;$/;"	m	struct:s_data
+times_ate	include/defines.h	/^	int				times_ate;$/;"	m	struct:s_philo
+usleep_wrapper	srcs/utils.c	/^void	usleep_wrapper(long long time, int dead)$/;"	f
